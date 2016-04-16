@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
 
+  get 'chats/new'
+
+  get 'chats/create'
+
   root 'pages#home'
   get 'about' => 'pages#about'
   get 'contact' => 'pages#contact'
   # get 'comments' => 'game#comments'
-  # get 'comments' => 'comments#new'
+  get 'chats' => 'chats#new'
   devise_for :user, 
              :controllers  => {
              :registrations => 'users/registrations',
