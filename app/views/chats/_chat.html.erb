@@ -1,0 +1,8 @@
+<li class="media chat" data-id="<%= chat.id %>">
+  <div class="media-body chat-box-message-content">
+    <h5 class="media-heading">
+      <%= link_to chat.user.username %>: <%= chat.body %>
+      <small class="text-muted">  [<%= chat.created_at.strftime('%H:%M:%S. %-d %B %Y') %>]</small>
+    </h5>
+  </div>
+</li>

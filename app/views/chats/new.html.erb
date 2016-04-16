@@ -1,2 +1,23 @@
-<h1>Chats#new</h1>
-<p>Find me in app/views/chats/new.html.erb</p>
+<% if current_user %>
+    <%= render 'form' %>
+    
+    <div class="panel panel-primary col-md-4" id="chats">
+      <div class="panel-heading">
+        Chat Messages
+      </div>
+      <div class="panel-body">
+        <ul class="media-list">
+          <%= render @chats %>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-8 panel panel-info">
+      <div class="panel-body" id="chat">
+        
+      </div>
+        
+    </div>
+
+<% else %>
+  <%= render 'user_session' %>
+<% end %>
