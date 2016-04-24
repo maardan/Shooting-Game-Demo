@@ -2,6 +2,7 @@ class ChatsController < ApplicationController
   def new
     @chat = Chat.new
     @chats = Chat.order('created_at DESC')
+    @gamerooms = Gameroom.where('id > ?', params[:after_id].to_i).order('created_at DESC')
   end
 
   def create

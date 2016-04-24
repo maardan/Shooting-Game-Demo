@@ -11,12 +11,14 @@
         </ul>
       </div>
     </div>
+
     <div class="col-md-8 panel panel-info">
-      <div class="panel-body" id="chats">
-        
-      </div>
-        
+      <div class="text-center"><%= render partial: "gamerooms/form", locals: {:gameroom => Gameroom.new} %>
+      <%= render partial: "gamerooms/new", locals: {:gamerooms => @gamerooms} %>
     </div>
+    
+
+    
 
 <% else %>
   <%= render 'user_session' %>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :gamerooms
   get 'chats/new'
 
   get 'chats/create'
@@ -9,6 +10,9 @@ Rails.application.routes.draw do
   get 'contact' => 'pages#contact'
   # get 'comments' => 'game#comments'
   get 'chats' => 'chats#new'
+  #get 'gamerooms/new', :to => 'gamerooms#create'
+  #get 'gamerooms/join/', to: 'gamerooms#create'
+
   devise_for :user, 
              :controllers  => {
              :registrations => 'users/registrations',
