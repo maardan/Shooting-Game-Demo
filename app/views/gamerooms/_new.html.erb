@@ -4,8 +4,8 @@
     <% gamerooms.each do |gameroom| %>
 	<tr>
 	<td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Delete', gameroom, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-left btn-sm btn-submit' %></td>
-	<td class="col-md-2 col-xs-* col-sm-*">  <%= current_user.username %>'s game </td>
-	<td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Play', gameroom, class: 'btn btn-success pull-right btn-sm btn-submit'  %></td>
+	<td class="col-md-2 col-xs-* col-sm-*">  <%= gameroom.user.username %>'s game </td>
+	<td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Play', game_path, class: 'btn btn-success pull-right btn-sm btn-submit'  %></td>
 	</tr>
   <% end %>
   </tbody>

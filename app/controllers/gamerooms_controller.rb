@@ -10,13 +10,13 @@ class GameroomsController < ApplicationController
   # GET /gamerooms/1
   # GET /gamerooms/1.json
   def show
-    #@gamerooms = Gameroom.find(params[:id])
+    @gamerooms = Gameroom.find(params[:id])
   end
 
   # GET /gamerooms/new
   def new
-    @gameroom = Gameroom.new
     @gamerooms = Gameroom.order('created_at DESC')
+
   end
 
   # GET /gamerooms/1/edit
@@ -26,8 +26,9 @@ class GameroomsController < ApplicationController
   # POST /gamerooms
   # POST /gamerooms.json
   def create
-    @gameroom = Gameroom.new(gameroom_params)
 
+    @gameroom = Gameroom.new(gameroom_params)
+    @gameroom.user_id = current_user.id
     respond_to do |format|
       if @gameroom.save
         format.html { redirect_to '/chats/new' }

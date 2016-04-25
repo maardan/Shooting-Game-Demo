@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'contact' => 'pages#contact'
   # get 'comments' => 'game#comments'
   get 'chats' => 'chats#new'
+  get 'game' => 'pages#game'
   #get 'gamerooms/new', :to => 'gamerooms#create'
   #get 'gamerooms/join/', to: 'gamerooms#create'
 
