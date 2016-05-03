@@ -1,5 +1,17 @@
-<%= form_for gameroom do |f| %>
+<%= form_for @gameroom, remote: true do |f| %>
+	<% if @gameroom.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@gameroom.errors.count, "error") %> prohibited this gameroom from being saved:</h2>
+
+      <ul>
+      <% @gameroom.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="actions">
-    <%= f.submit 'Create New Gameroom', class: 'btn btn-warning btn-sm btn-submit' %>
+    <%= f.submit 'Create New Gameroom', class: 'btn btn-warning btn-sm btn-submit'%>
   </div>
 <% end %>

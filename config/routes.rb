@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   # get 'comments' => 'game#comments'
   get 'chats' => 'chats#new'
   get 'game' => 'pages#game'
-  #get 'gamerooms/new', :to => 'gamerooms#create'
+  
+  get 'gamerooms/update', to: 'gamerooms#update'
   #get 'gamerooms/join/', to: 'gamerooms#create'
 
   devise_for :user, 

@@ -1,5 +1,11 @@
 class GameroomsController < ApplicationController
-  before_action :set_gameroom, only: [:show, :edit, :update, :destroy]
+  before_action :set_gameroom, only: [:update, :destroy]
+  respond_to :html, :js
+
+    # List of events
+  # LOBBIES_UPDATED_EVENT = "lobbies_updated_event"
+  # GAME_ROOM_UPDATED_EVENT = "game_room_updated_event"
+  # GAME_STARTED_EVENT = "game_started_event"
 
   # GET /gamerooms
   # GET /gamerooms.json
@@ -7,16 +13,15 @@ class GameroomsController < ApplicationController
     @gamerooms = gamerooms.where('id > ?', params[:after_id].to_i).order('created_at DESC')
   end
 
+  # GET /gamerooms/new
+  def new
+    @gameroom = Gameroom.new(gameroom_params)
+    @gamerooms = Gameroom.order('created_at DESC')
+  end
+
   # GET /gamerooms/1
   # GET /gamerooms/1.json
   def show
-    @gamerooms = Gameroom.find(params[:id])
-  end
-
-  # GET /gamerooms/new
-  def new
-    @gamerooms = Gameroom.order('created_at DESC')
-
   end
 
   # GET /gamerooms/1/edit
@@ -26,42 +31,40 @@ class GameroomsController < ApplicationController
   # POST /gamerooms
   # POST /gamerooms.json
   def create
-
     @gameroom = Gameroom.new(gameroom_params)
     @gameroom.user_id = current_user.id
+
     respond_to do |format|
       if @gameroom.save
-        format.html { redirect_to '/chats/new' }
-        format.json { render :nothing, status: :created, location: @gameroom }
+        # broadcast(GAME_LOBBIES_PUBLIC_CHANNEL, LOBBIES_UPDATED_EVENT, {})
+        format.html { redirect_to @gamerooms }
+        format.json { render json: @gamerooms, status: :created, location: @gameroom }
+        format.js 
       else
         format.html { render :nothing }
         format.json { render json: @gameroom.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
 
-  # PATCH/PUT /gamerooms/1
-  # PATCH/PUT /gamerooms/1.json
+  # PUT /products/1
+  # PUT /products/1.json
   def update
-    respond_to do |format|
-      if @gameroom.update(gameroom_params)
-        format.html { redirect_to '/chats/new', notice: 'Gameroom was successfully updated.' }
-        format.json { render :nothing, status: :ok, location: @gameroom }
-      else
-        format.html { render :nothing }
-        format.json { render json: @gameroom.errors, status: :unprocessable_entity }
-      end
-    end
+    @gameroom.update(gameroom_params)
   end
 
   # DELETE /gamerooms/1
   # DELETE /gamerooms/1.json
   def destroy
+    @gameroom = Gameroom.find(params[:id])
     @gameroom.destroy
     respond_to do |format|
-      format.html { redirect_to '/chats/new' }
+      format.html { redirect_to :back }
       format.json { head :no_content }
+      format.js
     end
+    # broadcast(GAME_LOBBIES_PUBLIC_CHANNEL, LOBBIES_UPDATED_EVENT, {})
   end
 
   public
@@ -74,4 +77,9 @@ class GameroomsController < ApplicationController
     def gameroom_params
       params.fetch(:gameroom, {})
     end
+
+    # def broadcast(channels, event, data)
+    #   # Include the socket ID because we want to exclude the sender as the recipient
+    #   Pusher.trigger(channels, event, data, { socket_id: params[:socket_id] });
+    # end
 end

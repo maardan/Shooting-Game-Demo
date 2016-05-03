@@ -1,4 +1,5 @@
 <% if current_user %>
+    <%= javascript_include_tag('/assets/refresh_gamerooms') %>
     <%= render 'form' %>
     
     <div class="panel panel-primary col-md-4" id="chats">
@@ -12,9 +13,21 @@
       </div>
     </div>
 
-    <div class="col-md-8 panel panel-info">
-      <div class="text-center"><%= render partial: "gamerooms/form", locals: {:gameroom => Gameroom.new} %>
-      <%= render partial: "gamerooms/new", locals: {:gamerooms => @gamerooms} %>
+    <div class="col-md-8 panel panel-info" id="response_data">
+      <div class="text-center">
+        <%= render partial: "gamerooms/form", locals: {:@gameroom => Gameroom.new} %>
+  
+        <div class="panel-body" >
+        <table>
+          <tbody id="gamerooms_refresh">
+            <% @gamerooms.each do |gameroom| %>
+            <%= render partial: "gamerooms/gameroom", locals: {:gameroom => gameroom} %>
+          <% end %>
+          </tbody>
+        </table>  
+        </div>
+
+      </div>
     </div>
 
 <% else %>
