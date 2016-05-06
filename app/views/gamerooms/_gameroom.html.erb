@@ -1,0 +1,5 @@
+<tr id="gameroom_<%= gameroom.id %>">
+  <td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Delete', gameroom, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-left btn-sm btn-submit', remote: true %></td>
+  <td class="col-md-2 col-xs-* col-sm-*">  <%= gameroom.user.username %>'s game </td>
+  <td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Play', game_path, class: 'btn btn-success pull-right btn-sm btn-submit', remote: true %></td>
+</tr>

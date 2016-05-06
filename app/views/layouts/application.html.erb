@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 <meta name="format-detection" content="telephone=no"/>
 <meta name="format-detection" content="email=no"/>
-
 <html>
   <head>
     <title>Shooting Game</title>
@@ -14,12 +12,12 @@
   <body>
     <div class="container">
       <div class="masthead">
-      <%= render 'layouts/header' %>
-        <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>">
-            <%= value %>
-          </div>
-        <% end %>
+        <%= render 'layouts/header' %>
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
       </div>
       <hr />
       <%= yield %>
@@ -36,7 +34,6 @@
       
     </div>
     <%= render 'layouts/footer' %>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
 </html>

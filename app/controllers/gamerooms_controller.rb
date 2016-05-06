@@ -1,11 +1,7 @@
 class GameroomsController < ApplicationController
   before_action :set_gameroom, only: [:update, :destroy]
+  before_filter :authenticate_user!
   respond_to :html, :js
-
-    # List of events
-  # LOBBIES_UPDATED_EVENT = "lobbies_updated_event"
-  # GAME_ROOM_UPDATED_EVENT = "game_room_updated_event"
-  # GAME_STARTED_EVENT = "game_started_event"
 
   # GET /gamerooms
   # GET /gamerooms.json
@@ -15,7 +11,6 @@ class GameroomsController < ApplicationController
 
   # GET /gamerooms/new
   def new
-    @gameroom = Gameroom.new(gameroom_params)
     @gamerooms = Gameroom.order('created_at DESC')
   end
 
@@ -37,22 +32,24 @@ class GameroomsController < ApplicationController
     respond_to do |format|
       if @gameroom.save
         # broadcast(GAME_LOBBIES_PUBLIC_CHANNEL, LOBBIES_UPDATED_EVENT, {})
-        format.html { redirect_to @gamerooms }
-        format.json { render json: @gamerooms, status: :created, location: @gameroom }
-        format.js 
-      else
-        format.html { render :nothing }
-        format.json { render json: @gameroom.errors, status: :unprocessable_entity }
+        # Pusher['private-'+params[:gameroom][:after_id]].trigger('new_gameroom', {:from => @gameroom.user_id})
+        # @gameroom = render_to_string( :partial => '/gamerooms/gameroom', :locals => { :gameroom => gameroom} )
+        # render :json => { :success => true, :html => @gameroom }
+        # Pusher['new_gameroom'].trigger($Q{$("#gamerooms_refresh").html("<%= escape_javascript(render :partial => '/gameroom', :gamerooms => @gamerooms) %>");})
+        Pusher.trigger('test_channel', 'new_gameroom', @gameroom, { socket_id: params[:socket_id] })
         format.js
+      else
+        flash.now[:error] = 'Your gameroom has error.'    
       end
+      
     end
   end
 
-  # PUT /products/1
-  # PUT /products/1.json
-  def update
-    @gameroom.update(gameroom_params)
-  end
+# PATCH/PUT /gamerooms/1
+# PATCH/PUT /gamerooms/1.json
+  # def update
+  # end
+
 
   # DELETE /gamerooms/1
   # DELETE /gamerooms/1.json

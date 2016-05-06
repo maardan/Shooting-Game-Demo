@@ -12,8 +12,10 @@ Rails.application.routes.draw do
   get 'chats' => 'chats#new'
   get 'game' => 'pages#game'
   
-  get 'gamerooms/update', to: 'gamerooms#update'
-  #get 'gamerooms/join/', to: 'gamerooms#create'
+  # get 'gamerooms/update', to: 'gamerooms#update'
+  # get '/gamelobbies/new/:id', to: 'gamerooms#new'
+  # get '/gamerooms/:id', to: 'gamerooms#show'
+  post 'pusher/auth'
 
   devise_for :user, 
              :controllers  => {

@@ -12,18 +12,32 @@
         </ul>
       </div>
     </div>
-
     <div class="col-md-8 panel panel-info" id="response_data">
       <div class="text-center">
         <%= render partial: "gamerooms/form", locals: {:@gameroom => Gameroom.new} %>
   
         <div class="panel-body" >
         <table>
-          <tbody id="gamerooms_refresh">
-            <% @gamerooms.each do |gameroom| %>
-            <%= render partial: "gamerooms/gameroom", locals: {:gameroom => gameroom} %>
-          <% end %>
-          </tbody>
+            <tbody id="gamerooms_refresh">
+
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+                <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
+                <script type="text/javascript" charset="utf-8">
+                  
+                  $(function() 
+                  {
+                    var pusher = new Pusher('1b17fcfc917f88821b2d', {encrypted: true});
+                    var channel = pusher.subscribe('test_channel');
+
+                    channel.bind('new_gameroom', function(data) 
+                    {
+                      $('#gamerooms_refresh').prepend('<%=j render @gamerooms %>');
+                      $('tr#<%= dom_id(@gameroom) %>').highlight();
+                    });
+                  });
+                </script>
+
+            </tbody>
         </table>  
         </div>
 
