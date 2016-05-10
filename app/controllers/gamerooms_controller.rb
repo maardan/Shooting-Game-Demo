@@ -1,7 +1,6 @@
 class GameroomsController < ApplicationController
-  before_action :set_gameroom, only: [:update, :destroy]
-  before_filter :authenticate_user!
-  respond_to :html, :js
+  before_action :set_gameroom, only: [:destroy]
+  respond_to :js
 
   # GET /gamerooms
   # GET /gamerooms.json
@@ -16,12 +15,12 @@ class GameroomsController < ApplicationController
 
   # GET /gamerooms/1
   # GET /gamerooms/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /gamerooms/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /gamerooms
   # POST /gamerooms.json
@@ -31,18 +30,12 @@ class GameroomsController < ApplicationController
 
     respond_to do |format|
       if @gameroom.save
-        # broadcast(GAME_LOBBIES_PUBLIC_CHANNEL, LOBBIES_UPDATED_EVENT, {})
-        # Pusher['private-'+params[:gameroom][:after_id]].trigger('new_gameroom', {:from => @gameroom.user_id})
-        # @gameroom = render_to_string( :partial => '/gamerooms/gameroom', :locals => { :gameroom => gameroom} )
-        # render :json => { :success => true, :html => @gameroom }
-        # Pusher['new_gameroom'].trigger($Q{$("#gamerooms_refresh").html("<%= escape_javascript(render :partial => '/gameroom', :gamerooms => @gamerooms) %>");})
-        Pusher.trigger('test_channel', 'new_gameroom', @gameroom, { socket_id: params[:socket_id] })
         format.js
+        # Pusher.trigger('gamerooms_channel', 'new_gameroom', { gameroomID: @gameroom.id })
       else
         flash.now[:error] = 'Your gameroom has error.'    
       end
-      
-    end
+    end 
   end
 
 # PATCH/PUT /gamerooms/1
@@ -50,18 +43,11 @@ class GameroomsController < ApplicationController
   # def update
   # end
 
-
   # DELETE /gamerooms/1
   # DELETE /gamerooms/1.json
   def destroy
-    @gameroom = Gameroom.find(params[:id])
     @gameroom.destroy
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.json { head :no_content }
-      format.js
-    end
-    # broadcast(GAME_LOBBIES_PUBLIC_CHANNEL, LOBBIES_UPDATED_EVENT, {})
+    Pusher.trigger('gamerooms_channel', 'delete_gameroom', { gameroomID: @gameroom.id })
   end
 
   public
@@ -74,9 +60,4 @@ class GameroomsController < ApplicationController
     def gameroom_params
       params.fetch(:gameroom, {})
     end
-
-    # def broadcast(channels, event, data)
-    #   # Include the socket ID because we want to exclude the sender as the recipient
-    #   Pusher.trigger(channels, event, data, { socket_id: params[:socket_id] });
-    # end
 end

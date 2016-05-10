@@ -21,17 +21,11 @@
       </div>
       <hr />
       <%= yield %>
-
-      <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
-      <script type="text/javascript">
-        Pusher.log = function(message) {
-          if (window.console && window.console.log) {
-            window.console.log(message);
-          }
-        };
-        var pusher = new Pusher('1b17fcfc917f88821b2d');
-      </script>
       
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="http://js.pusher.com/3.0/pusher.min.js"></script>
+    <script type="text/javascript" charset="utf-8"></script>
+
     </div>
     <%= render 'layouts/footer' %>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

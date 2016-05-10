@@ -1,5 +1,1 @@
-<% if @gameroom.errors.count == 0 %>
-
-	$('#gamerooms_refresh').append('<%= j render("gameroom", :gameroom => @gameroom) %>');
-
-<% end %>
+$('#gamerooms_refresh').append('<%= j render @gameroom %>');

@@ -6,5 +6,9 @@ class User < ActiveRecord::Base
 
   has_many :chats, dependent: :delete_all
 
+  has_one :gamerooms, :class_name => 'Gameroom', :foreign_key => :user_id
+
+  has_one :games, :class_name => 'Game', :foreign_key => :user_id
+
   validates :username, :length => { :maximum => 30 }
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425065715) do
+ActiveRecord::Schema.define(version: 20160510104312) do
 
   create_table "chats", force: :cascade do |t|
     t.text     "body"
@@ -26,10 +26,19 @@ ActiveRecord::Schema.define(version: 20160425065715) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
-    t.integer  "users"
   end
 
-  add_index "gamerooms", ["users"], name: "index_gamerooms_on_users"
+  add_index "gamerooms", ["user_id"], name: "index_gamerooms_on_user_id"
+
+  create_table "games", force: :cascade do |t|
+    t.integer  "player1_id"
+    t.integer  "player2_id"
+    t.integer  "score"
+    t.string   "winner"
+    t.boolean  "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -45,11 +54,9 @@ ActiveRecord::Schema.define(version: 20160425065715) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "username"
-    t.integer  "gamerooms"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["gamerooms"], name: "index_users_on_gamerooms"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 

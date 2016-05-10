@@ -1,21 +1,18 @@
 Rails.application.routes.draw do
 
+  resources :games
   resources :gamerooms
   get 'chats/new'
 
   get 'chats/create'
 
   root 'pages#home'
+
   get 'about' => 'pages#about'
+
   get 'contact' => 'pages#contact'
-  # get 'comments' => 'game#comments'
+
   get 'chats' => 'chats#new'
-  get 'game' => 'pages#game'
-  
-  # get 'gamerooms/update', to: 'gamerooms#update'
-  # get '/gamelobbies/new/:id', to: 'gamerooms#new'
-  # get '/gamerooms/:id', to: 'gamerooms#show'
-  post 'pusher/auth'
 
   devise_for :user, 
              :controllers  => {

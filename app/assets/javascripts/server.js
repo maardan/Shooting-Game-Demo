@@ -1,8 +1,13 @@
 var express = require('express')
   , app = express(app)
   , server = require('http').createServer(app);
+
 var zombieID = 0;
-gamestart = false;
+var gamestart = false;
+var x = [];
+var y = [];
+var randomPlayer = [];
+var randomNum = [];
 
 app.use(express.static(__dirname));
 
@@ -34,6 +39,7 @@ eurecaServer.onDisconnect(function (conn){
 	}
 });
 
+
 eurecaServer.exports.handshake = function()
 {
 	for (var c in clients)
@@ -43,45 +49,55 @@ eurecaServer.exports.handshake = function()
 		{		
       var x = clients[cc].laststate ? clients[cc].laststate.x:  0;
 			var y = clients[cc].laststate ? clients[cc].laststate.y:  0;
-      remote.spawnPlayer(clients[cc].id, 120, 120);		
+      remote.spawnPlayer(clients[cc].id, 1000, 1000);		
 		}
 	}
 }
 
+eurecaServer.exports.begin = function()
+{
+  console.log("call zombies from clients");
+  initZombie();
+  	for (var c in clients)
+	{
+		var remote = clients[c].remote;
+    //production
+		// for (var i = 0; i < 10; i++){
+      // remote.spawnZombie(zombieID++, x[i], y[i], 
+                      // clients[Object.keys(clients)[randomPlayer[i]]].id);		
+		// }
+    //debug
+    for (var i = 0; i < 60; i++){
+      remote.spawnZombie(zombieID++, x[i], y[i], 
+                      clients[Object.keys(clients)[randomPlayer[i]]].id, randomNum[i]);		
+		}
+	}
+}
+ 
+
+
 eurecaServer.exports.handleKeys = function (keys) {
 	var conn = this.connection;
 	var updatedClient = clients[conn.id];
-  var x = [];
-  var y = [];
-  var randomPlayer = [];
-  for (var i = 0; i < 5; i++)
-  {
-    x.push(0);
-    y.push(Math.floor((Math.random() * 600) + 1));
-    randomPlayer.push(Math.floor(Math.random() * Object.keys(clients).length));
-  }
-    for (var i = 0; i < 5; i++)
-  {
-    x.push(Math.floor((Math.random() * 800) + 1));
-    y.push(0);
-    randomPlayer.push(Math.floor(Math.random() * Object.keys(clients).length));
-  }
+
+  
 	for (var c in clients)
 	{
 	var remote = clients[c].remote;
   //console.log(gamestart);
   //console.log(Object.keys(clients).length);
-  if (gamestart == false && Object.keys(clients).length > 1)
-  {
-    for (var i = 0; i < 10; i++)
-    {
-      remote.spawnZombie(zombieID++, x[i], y[i], 
-                         clients[Object.keys(clients)[randomPlayer[i]]].id);
-    }
-  }
+	//start when player > 2
+//  if (gamestart == false && Object.keys(clients).length > 1)
+//  {
+//    initZombie();
+//    for (var i = 0; i < 10; i++)
+//    {
+//      remote.spawnZombie(zombieID++, x[i], y[i], 
+//                         clients[Object.keys(clients)[randomPlayer[i]]].id);
+//    }
+//  }
   if (keys.addZombie == true){
-    remote.spawnZombie(zombieID++, x[0], y[0], 
-                       clients[Object.keys(clients)[randomPlayer[0]]].id);
+   console.log("right click call");
   }
 		remote.updateState(updatedClient.id, keys);
 		clients[c].laststate = keys;
@@ -91,4 +107,33 @@ eurecaServer.exports.handleKeys = function (keys) {
   }
 }
 
-server.listen(3000);
+function initZombie (){
+  x = [];
+  y = [];
+  randomPlayer = [];
+  randomNum = [];
+    // for (var i = 0; i < 5; i++)
+    // {
+      // x.push(Math.floor((Math.random() * 660) + 1));
+      // y.push(500);
+      // randomPlayer.push(Math.floor(Math.random() * Object.keys(clients).length));
+      // randomNum.push(Math.floor((Math.random() * 100) + 1));
+    // }
+  // for (var i = 0; i < 5; i++)
+    // {
+      // x.push(-160);
+      // y.push(Math.floor((Math.random() * 460) + 1));
+      // randomPlayer.push(Math.floor(Math.random() * Object.keys(clients).length));
+      // randomNum.push(Math.floor((Math.random() * 100) + 1));
+    // }
+  for (var i = 0; i < 60; i++)
+    {
+      x.push(Math.floor((Math.random() * 2000) + 1));
+      y.push(Math.floor((Math.random() * 2000) + 1));
+      randomPlayer.push(Math.floor(Math.random() * Object.keys(clients).length));
+      randomNum.push(Math.floor((Math.random() * 100) + 1));
+    }
+
+  
+}
+server.listen(8000);

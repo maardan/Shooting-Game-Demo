@@ -1,5 +1,20 @@
 <tr id="gameroom_<%= gameroom.id %>">
   <td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Delete', gameroom, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-left btn-sm btn-submit', remote: true %></td>
   <td class="col-md-2 col-xs-* col-sm-*">  <%= gameroom.user.username %>'s game </td>
-  <td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Play', game_path, class: 'btn btn-success pull-right btn-sm btn-submit', remote: true %></td>
+  <td class="col-md-2 col-xs-* col-sm-*"><%= link_to 'Play', games_path, class: 'btn btn-success pull-right btn-sm btn-submit' %></td>
 </tr>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://js.pusher.com/3.0/pusher.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+
+var pusher = new Pusher('1b17fcfc917f88821b2d');
+var channel = pusher.subscribe('gamerooms_channel');
+
+channel.bind('delete_gameroom', function(data) 
+{
+	var msg = data.gameroomID;
+	$('#gameroom_' + msg).fadeOut();
+});
+
+</script>
