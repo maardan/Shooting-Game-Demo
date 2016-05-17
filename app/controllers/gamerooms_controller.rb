@@ -31,11 +31,13 @@ class GameroomsController < ApplicationController
     respond_to do |format|
       if @gameroom.save
         format.js
-        # Pusher.trigger('gamerooms_channel', 'new_gameroom', { gameroomID: @gameroom.id })
+        Pusher.trigger('gamerooms_channel', 'new_gameroom', { gameroomID: @gameroom.id })
       else
         flash.now[:error] = 'Your gameroom has error.'    
       end
     end 
+    @cmd = 'nohup /path/node /path/server.js ' + @gameroom.id.to_s + ' > myout.file 2>&1 &'
+    system(@cmd)
   end
 
 # PATCH/PUT /gamerooms/1
@@ -48,6 +50,7 @@ class GameroomsController < ApplicationController
   def destroy
     @gameroom.destroy
     Pusher.trigger('gamerooms_channel', 'delete_gameroom', { gameroomID: @gameroom.id })
+    system('pwd')
   end
 
   public

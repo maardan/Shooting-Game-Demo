@@ -10,7 +10,7 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="containerDIV">
       <div class="masthead">
         <%= render 'layouts/header' %>
           <% flash.each do |key, value| %>
@@ -20,14 +20,14 @@
           <% end %>
       </div>
       <hr />
-      <%= yield %>
-      
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="http://js.pusher.com/3.0/pusher.min.js"></script>
-    <script type="text/javascript" charset="utf-8"></script>
+
+    <%= yield %>
 
     </div>
     <%= render 'layouts/footer' %>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="http://js.pusher.com/3.0/pusher.min.js"></script>
+    <script type="text/javascript" charset="utf-8"></script>
   </body>
 </html>
